@@ -1,6 +1,6 @@
 # RAW PIXELS
 
-Raw Pixels is an Android application developed by NKNW Lab as a digital tool for making graffiti handstyles.
+Raw Pixels is an Android application for making graffiti handstyles.
 
 I'm a graffiti writer and a graphic designer, painting since 2008, on Linux. Not a programmer, ateam or a company, so feedback is very appreciated!
 
