@@ -9,3 +9,12 @@ platforms/android/app/src/main/assets/www/
 *.aab
 .DS_Store
 *.iml
+
+# graphic assets, not in the repo
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.ico
+*.svg
+*.zip
