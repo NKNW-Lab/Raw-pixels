@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Raw-Pixels</string>
+    <string name="title_activity_main">Raw-Pixels</string>
+    <string name="package_name">com.nknwlab.RawPixels</string>
+    <string name="custom_url_scheme">com.nknwlab.RawPixels</string>
+</resources>

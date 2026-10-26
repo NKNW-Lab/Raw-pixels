@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Android 11+ non fa piu "vedere" le altre app.
+    Serve per far risolvere l'intent del browser usato dai link _system. -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="https" />
+        </intent>
+    </queries>
+
+    <application
+        android:allowBackup="false"
+        android:enableOnBackInvokedCallback="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
+        android:theme="@style/AppTheme">
+
+        <activity
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|smallestScreenSize|screenLayout|uiMode|navigation|density"
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.NoActionBarLaunch"
+            android:screenOrientation="sensorLandscape"
+            android:windowSoftInputMode="adjustPan"
+            android:launchMode="singleTask"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+
+        <!-- Serve per condividere l'immagine salvata come content://.
+        NON togliere: res/xml/file_paths.xml deve esistere o la build fallisce. -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+            </provider>
+        </application>
+
+        <!-- ================= PERMESSI ================= -->
+
+        <!-- TIENILO per ora. Il WebView richiede INTERNET anche per http://localhost.
+        Toglilo SOLO se config.xml non contiene un plugin webview
+        (in quel caso la pagina carica da file:// e il permesso e inutile). -->
+        <uses-permission android:name="android.permission.INTERNET" />
+
+        <!-- TIENILO. Serve a scrivere in galleria su Android 9 e precedenti. -->
+        <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+                         android:maxSdkVersion="28" />
+
+        <!-- RIMOSSI: READ_EXTERNAL_STORAGE e READ_MEDIA_IMAGES.
+        Il picker di <input type="file"> passa dal selettore di sistema (SAF),
+        che da il permesso per singolo file senza chiederlo.
+        Da testare: se l'upload immagini si rompe, rimettili. -->
+        </manifest>

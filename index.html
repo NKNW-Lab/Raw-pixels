@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <!-- Viewport moderno - rimosso maximum-scale che è deprecato -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    
+    <!-- Orientamento -->
+    <meta name="screen-orientation" content="landscape">
+    <meta name="x5-orientation" content="landscape">
+    
+    <title>NKNW-LAB - INTRO</title>
+    
+    <!-- Font con display=swap: se il font tarda, mostra subito un font di sistema -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    
+    <!-- Preload delle immagini critiche: il browser le scarica subito -->
+    <link rel="preload" href="images/splash3.png" as="image">
+    <link rel="preload" href="images/ico/arrow.png" as="image">
+    
+    <!-- Precarica la pagina successiva in background -->
+    <link rel="prefetch" href="Tags.html">
+    
+    <style>
+        /* Reset ottimizzato - rimossi prefissi obsoleti */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: none;
+        }
+
+        html, body {
+            overscroll-behavior: none;
+            touch-action: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        body {
+            /* Background ottimizzato: niente ripetizioni inutili */
+            background: #0a0a00 url('images/splash1.png') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Courier New', monospace;
+            color: #ffaa00;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        /* TV Noise ottimizzato: height 100% invece di 200% */
+        .tv-noise {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%; /* Cambiato da 200% a 100% */
+            pointer-events: none;
+            opacity: 0.1;
+            z-index: 2;
+            /* Pattern più leggero: linee più distanziate */
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.3) 0px,
+                rgba(0, 0, 0, 0.3) 1px,
+                transparent 1px,
+                transparent 4px /* Aumentato da 3px a 4px: meno linee = meno lavoro */
+            );
+            /* Isola questo elemento: il browser sa che non influenza gli altri */
+            contain: layout style paint;
+        }
+
+        /* Container titolo - ottimizzato per GPU */
+        .raw-pixels-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* Diciamo al browser: "questo elemento si muoverà" */
+            will-change: transform;
+        }
+
+        /* Immagine titolo: ottimizzata */
+        .raw-pixels-title {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            mix-blend-mode: screen;
+            /* Uniamo le animazioni in una sola dichiarazione più efficiente */
+            animation: 
+                slowFadeWithPixelJitter 3.5s steps(12, end) forwards,
+                periodicShock 4s ease-in-out infinite 3.5s; /* Delay iniziale */
+            /* Ottimizzazione rendering */
+            will-change: transform, opacity;
+            backface-visibility: hidden; /* Evita calcoli inutili */
+        }
+
+        /* Glitch laterale - ottimizzato */
+        .side-glitch-stripe {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 15vw;
+            height: 100vh;
+            background: inherit;
+            background-position: right center;
+            pointer-events: none;
+            z-index: 3;
+            opacity: 0.7;
+            mix-blend-mode: color-dodge;
+            animation: sideGlitchAnim 2.5s steps(4, end) infinite;
+            /* Isolamento layer */
+            will-change: transform, opacity;
+            contain: layout;
+        }
+
+        /* Animazioni semplificate: meno keyframe, stesso effetto */
+        @keyframes sideGlitchAnim {
+            0%, 100% { 
+                transform: translateX(0) skewX(0deg); 
+                opacity: 0.5; 
+            }
+            25% { 
+                transform: translateX(-4px) skewX(-2deg); 
+                opacity: 0.8; 
+                filter: hue-rotate(45deg); 
+            }
+            50% { 
+                transform: translateX(3px) skewX(4deg); 
+                opacity: 0.3; 
+            }
+            75% { 
+                transform: translateX(-2px) skewX(-1deg); 
+                opacity: 0.9; 
+                filter: hue-rotate(-30deg); 
+            }
+        }
+
+        /* Animazione ingresso: ridotto da 10 a 5 keyframe, stesso effetto */
+        @keyframes slowFadeWithPixelJitter {
+            0% {
+                opacity: 0;
+                transform: translateY(0);
+            }
+            25% {
+                opacity: 0.2;
+                transform: translateX(1px) translateY(1px);
+            }
+            50% {
+                opacity: 0.5;
+                transform: translateX(-1px) translateY(0);
+            }
+            75% {
+                opacity: 0.8;
+                transform: translateX(1px) translateY(-1px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Vibrazione periodica: ottimizzata (meno frame, stesso effetto) */
+        @keyframes periodicShock {
+            0%, 100% {
+                transform: translate(0, 0) skewX(0deg);
+            }
+            25% {
+                transform: translate(-2px, 1px) skewX(-1deg);
+            }
+            50% {
+                transform: translate(2px, -1px) skewX(1deg);
+            }
+            75% {
+                transform: translate(-1px, 2px) skewX(0deg);
+            }
+        }
+
+        /* Container pulsante */
+        .intro-container {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 12px;
+            z-index: 5;
+        }
+
+        /* Pulsante ottimizzato */
+        .app-link-btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 110px;
+            height: 110px;
+            cursor: pointer;
+            text-decoration: none;
+            background: transparent;
+            border: none;
+            outline: none;
+            /* Transizione solo su transform (GPU), non su tutte le proprietà */
+            transition: transform 0.2s ease;
+            touch-action: manipulation;
+            will-change: transform;
+        }
+
+        .floating-key-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 10px rgba(255, 170, 0, 0.4));
+            /* Ottimizzazione: nessuna transizione qui, solo sul parent */
+            pointer-events: none;
+        }
+
+        /* Hover solo su dispositivi con mouse (non touch) */
+        @media (hover: hover) {
+            .app-link-btn:hover {
+                transform: scale(1.08);
+            }
+            .app-link-btn:hover .floating-key-img {
+                filter: drop-shadow(0 0 18px rgba(255, 170, 0, 0.8));
+            }
+        }
+
+        /* Active state per touch (quando premi) */
+        .app-link-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Testo typewriter - font-display: swap gestito via CSS */
+        .intro-title {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.65rem;
+            color: #ff6b35;
+            text-shadow: 0 0 8px rgba(255, 107, 53, 0.8);
+            text-align: right;
+            letter-spacing: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 3px solid #ff6b35;
+            width: 12ch;
+            animation: typing 1.5s steps(12, end) 0.5s 1 normal both, 
+                       blink-cursor 0.75s step-end infinite;
+            /* Fallback font immediato */
+            font-display: swap;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 12ch; }
+        }
+
+        @keyframes blink-cursor {
+            from, to { border-color: transparent; }
+            50% { border-color: #ff6b35; }
+        }
+
+        /* Overlay fade */
+        #fade-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000000;
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+            /* Ottimizzazione: il browser sa che cambierà opacità */
+            will-change: opacity;
+        }
+
+        body.fade-active #fade-overlay {
+            opacity: 1;
+        }
+
+        /* Classe per mettere in pausa le animazioni quando l'app è in background */
+        .app-paused .raw-pixels-title,
+        .app-paused .side-glitch-stripe,
+        .app-paused .tv-noise {
+            animation-play-state: paused !important;
+        }
+
+        /* Ottimizzazione per schermi a 60Hz (riduce lo sforzo sui telefoni vecchi) */
+        @media (prefers-reduced-motion: reduce) {
+            .raw-pixels-title,
+            .side-glitch-stripe,
+            .tv-noise {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="tv-noise"></div>
+    <div class="side-glitch-stripe"></div>
+    <div id="fade-overlay"></div>
+
+    <div class="raw-pixels-container">
+        <!-- Aggiunto loading="eager" per priorità massima -->
+        <img src="images/splash3.png" alt="Raw Pixels" class="raw-pixels-title" loading="eager" decoding="async">
+    </div>
+
+    <div class="intro-container">
+        <a href="Tags.html" class="app-link-btn" id="enter-btn" title="Enter">
+            <img src="images/ico/arrow.png" alt="Enter" class="floating-key-img" loading="eager" decoding="async">
+        </a>
+        <div class="intro-title">> NKNW_Lab</div>
+    </div>
+
+    <script>
+        // Gestione pause quando l'app va in background (risparmia batteria)
+        document.addEventListener('pause', function() {
+            document.body.classList.add('app-paused');
+        }, false);
+
+        document.addEventListener('resume', function() {
+            document.body.classList.remove('app-paused');
+        }, false);
+
+        // Gestione tasto BACK cross-platform (Cordova + Capacitor)
+        document.addEventListener('deviceready', function() {
+            document.addEventListener('backbutton', function(e) {
+                e.preventDefault();
+                if (confirm('Vuoi uscire dall\'app?')) {
+                    // Prova Cordova
+                    if (typeof navigator.app !== 'undefined' && navigator.app.exitApp) {
+                        navigator.app.exitApp();
+                    } 
+                    // Prova Capacitor
+                    else if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App) {
+                        window.Capacitor.Plugins.App.exitApp();
+                    } 
+                    // Fallback: chiudi finestra (per browser)
+                    else {
+                        window.close();
+                    }
+                }
+            }, false);
+        }, false);
+
+        // Fade al click con gestione errore
+        document.getElementById('enter-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetUrl = this.href;
+            
+            try {
+                document.body.classList.add('fade-active');
+                setTimeout(function() {
+                    window.location.href = targetUrl;
+                }, 500);
+            } catch (err) {
+                // Se qualcosa va storto, vai comunque alla pagina
+                window.location.href = targetUrl;
+            }
+        });
+
+        // Precarica Tags.html in background dopo 2 secondi (quando la splash è stabile)
+        setTimeout(function() {
+            const preloadLink = document.createElement('link');
+            preloadLink.rel = 'prefetch';
+            preloadLink.href = 'Tags.html';
+            document.head.appendChild(preloadLink);
+        }, 2000);
+    </script>
+
+</body>
+</html>
